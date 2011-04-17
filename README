@@ -1,0 +1,15 @@
+A Youtube Video downloader. Meant for educational purpose.
+Helps me download the long lecture videos, without having to watch it all.
+
+Thought it would help me learn something new.
+
+We get the download URL from parsing the html response we get when we execute a normal Youtube Video.
+
+Used Java SWING to generate the UI.
+This will allow the user to add 10 URLS, and download them.
+
+Users have an option to change the download location.
+
+The list of videos can be updated.
+
+
