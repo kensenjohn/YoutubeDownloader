@@ -103,8 +103,8 @@ public class DownloadYTVideo {
         try {
         	
         	URL urlVideoURL = new URL(youtube.getDownLoadURL());
-			
-            InputStream inStreamVideo = urlVideoURL.openStream();
+            URLConnection urlConnection = urlVideoURL.openConnection();
+            InputStream inStreamVideo = urlConnection.getInputStream();
             
             OutputStream outStreamVideo = new BufferedOutputStream(new FileOutputStream(sDownloadLocation+"/"+youtube.getFileName()+".mp4"));
             for (int b; (b = inStreamVideo.read()) != -1; ) {
@@ -120,6 +120,7 @@ public class DownloadYTVideo {
         catch (FileNotFoundException e )
         {
         	sErrorMessg = "NoPerm";
+            e.printStackTrace();
         }
         catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -149,9 +150,11 @@ public class DownloadYTVideo {
 				if(inputLine.contains("generate_204") && !isDownUrlFound)
 				{	// Retireve the Stream URL and clean up the file.
 					System.out.println(inputLine);
-					String sVideoURL = inputLine.substring( (inputLine.indexOf("http:")+9) , inputLine.indexOf("\";") );
+                    Integer iStartIndex =  inputLine.indexOf("http:")+9;
+                    Integer iEndIndex =  inputLine.indexOf("\");");
+					String sVideoURL = inputLine.substring( (inputLine.indexOf("http:")+9) , inputLine.indexOf("\");") );
 					
-					sVideoURL = "http://" + sVideoURL;
+					sVideoURL = "https://" + sVideoURL;
 					
 					sVideoURL = sVideoURL.replace("\\/", "/");
 					sVideoURL = sVideoURL.replace("%2C", ",");
@@ -166,7 +169,10 @@ public class DownloadYTVideo {
 					//retrieve the title name.
 					
 					inputLine = inputLine.trim();
-					String sVideoTitle = inputLine.substring( (inputLine.indexOf("<meta name=\"title\" content=\"")+28) , inputLine.indexOf("\">") );
+                    Integer iStartIndex =  (inputLine.indexOf("<meta name=\"title\" content=\"")+28);
+                    String sStartString = inputLine.substring( iStartIndex );
+                    Integer iEndIndex =  sStartString.indexOf("\">");
+					String sVideoTitle = sStartString.substring( 0 , iEndIndex );
 					
 					sVideoTitle = sVideoTitle.replace(" ", "_");
 					youtube.setFileName(sVideoTitle);
