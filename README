@@ -12,4 +12,10 @@ Users have an option to change the download location.
 
 The list of videos can be updated.
 
+Note:
+As of 2015 this application will not work. This can only be used for educational purposes. 
+Youtube is forcing all access to videos using https. 
+The application needs to satisfy the SSL handshake in order to access the youtube stream. 
+It currently doesnt support this feature. 
+
 
